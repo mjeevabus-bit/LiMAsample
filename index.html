@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiMA 永續選品型錄</title>
+  <meta name="description" content="LiMA 匯聚對地球友善的精選永續商品，以美好設計實踐日常責任。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== INDEX SPECIFIC ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 80px;
+    }
+    .stat {
+      background: var(--cream);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .stat__number {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 5vw, 72px);
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .stat__number span { color: var(--sage); }
+    .stat__label {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+    }
+    .featured-large { grid-row: span 2; }
+
+    .featured-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      background: var(--warm-grey);
+    }
+    .featured-card__img {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .featured-card:hover .featured-card__img { transform: scale(1.04); }
+
+    .featured-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,26,24,0.7) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+    }
+    .featured-card__tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage-light);
+      margin-bottom: 10px;
+    }
+    .featured-card__name {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .featured-card__price {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .featured-large .featured-card__name { font-size: clamp(28px, 3vw, 40px); }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .value-item { text-align: center; padding: 0 16px; }
+    .value-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(122,140,110,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 22px;
+    }
+    .value-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .value-desc {
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.7;
+      font-family: var(--font-serif);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .story-image {
+      aspect-ratio: 4/5;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--warm-grey);
+      position: relative;
+    }
+    .story-image img { width: 100%; height: 100%; object-fit: cover; }
+    .story-image__accent {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 160px;
+      height: 160px;
+      background: rgba(122,140,110,0.15);
+      border-radius: 4px;
+      z-index: -1;
+    }
+    .story-text { }
+    .story-quote {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 32px);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 28px;
+      padding-left: 24px;
+      border-left: 2px solid var(--sage);
+    }
+    .story-body {
+      font-size: 15px;
+      color: var(--stone);
+      line-height: 1.85;
+      font-family: var(--font-serif);
+      font-weight: 300;
+      margin-bottom: 36px;
+    }
+
+    .newsletter {
+      background: var(--accent);
+      padding: 80px 0;
+      text-align: center;
+    }
+    .newsletter__title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .newsletter__sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      font-family: var(--font-serif);
+      margin-bottom: 40px;
+    }
+    .newsletter__form {
+      display: flex;
+      gap: 0;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .newsletter__input {
+      flex: 1;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-right: none;
+      color: var(--white);
+      font-size: 14px;
+      outline: none;
+      font-family: var(--font-body);
+    }
+    .newsletter__input::placeholder { color: rgba(255,255,255,0.5); }
+    .newsletter__btn {
+      padding: 16px 28px;
+      background: var(--white);
+      border: none;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.25s;
+      font-family: var(--font-body);
+    }
+    .newsletter__btn:hover { background: var(--cream); }
+
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: 1fr; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .featured-large { grid-row: auto; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .story-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    @media (max-width: 600px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .newsletter__form { flex-direction: column; }
+      .newsletter__input { border-right: 1px solid rgba(255,255,255,0.25); border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Li<span>MA</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="active">首頁</a></li>
+      <li><a href="catalog.html">選品型錄</a></li>
+      <li><a href="about.html">品牌理念</a></li>
+      <li><a href="contact.html" class="nav__cta">聯絡我們</a></li>
+    </ul>
+    <div class="nav__hamburger" aria-label="選單">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__text">
+      <p class="hero__eyebrow">永續生活・精選選品</p>
+      <h1 class="hero__title">
+        為大地<br><em>而選</em><br>為生活<br>而留
+      </h1>
+      <p class="hero__desc">
+        LiMA 匯聚來自世界各地對地球友善的精選商品，<br>
+        讓每一次購買，都是一次溫柔的行動。
+      </p>
+      <div class="hero__actions">
+        <a href="catalog.html" class="btn-primary">瀏覽選品型錄</a>
+        <a href="about.html" class="btn-outline">了解我們</a>
+      </div>
+    </div>
+    <div class="hero__image">
+      <div class="img-placeholder" style="height:100%;min-height:500px;background:linear-gradient(160deg,#d4cfc4 0%,#b8c4aa 50%,#8a9e7a 100%);display:flex;align-items:flex-end;justify-content:flex-start;padding:40px;">
+        <div style="color:rgba(255,255,255,0.6);font-family:var(--font-display);font-size:14px;letter-spacing:0.1em;">永續 · 自然 · 美好</div>
+      </div>
+      <div class="hero__image-overlay"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="container">
+    <div class="stats">
+      <div class="stat fade-in">
+        <div class="stat__number">120<span>+</span></div>
+        <div class="stat__label">精選品項</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat__number">35<span>+</span></div>
+        <div class="stat__label">合作品牌</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat__number">100<span>%</span></div>
+        <div class="stat__label">嚴格永續認證</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">精選推薦</span>
+        <h2 class="section-title">本季 <em>亮點選品</em></h2>
+        <p class="section-subtitle">每一件都通過我們嚴格的永續標準審核，兼顧美感與責任。</p>
+      </div>
+
+      <div class="featured-grid fade-in">
+        <div class="featured-large">
+          <div class="featured-card" style="height:100%;">
+            <div class="img-placeholder featured-card__img" style="background:linear-gradient(150deg,#c8d5be 0%,#8fa882 100%);min-height:520px;"></div>
+            <div class="featured-card__overlay">
+              <span class="featured-card__tag">生活用品</span>
+              <h3 class="featured-card__name">有機苧麻<br>多功能毯</h3>
+              <p class="featured-card__price">NT$ 2,800</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="featured-card">
+            <div class="img-placeholder featured-card__img" style="background:linear-gradient(150deg,#d9cfc0 0%,#b5a990 100%);min-height:260px;"></div>
+            <div class="featured-card__overlay">
+              <span class="featured-card__tag">食品</span>
+              <h3 class="featured-card__name">冷壓初榨橄欖油</h3>
+              <p class="featured-card__price">NT$ 680</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="featured-card">
+            <div class="img-placeholder featured-card__img" style="background:linear-gradient(150deg,#cdd4ce 0%,#8fa898 100%);min-height:260px;"></div>
+            <div class="featured-card__overlay">
+              <span class="featured-card__tag">個人護理</span>
+              <h3 class="featured-card__name">零廢棄潔顏皂磚</h3>
+              <p class="featured-card__price">NT$ 380</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:48px;" class="fade-in">
+        <a href="catalog.html" class="btn-outline">查看所有選品</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">我們的承諾</span>
+        <h2 class="section-title">選品的 <em>四個標準</em></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-item fade-in">
+          <div class="value-icon">🌿</div>
+          <h3 class="value-title">天然材質</h3>
+          <p class="value-desc">所有選品優先使用有機、天然或可再生材料，減少化學物質對環境的衝擊。</p>
+        </div>
+        <div class="value-item fade-in">
+          <div class="value-icon">♻️</div>
+          <h3 class="value-title">循環設計</h3>
+          <p class="value-desc">從生產到包裝，皆採用可回收或可分解材質，支持循環經濟概念。</p>
+        </div>
+        <div class="value-item fade-in">
+          <div class="value-icon">🤝</div>
+          <h3 class="value-title">公平貿易</h3>
+          <p class="value-desc">確保每個生產環節的工人皆獲得公平薪酬與安全的工作環境。</p>
+        </div>
+        <div class="value-item fade-in">
+          <div class="value-icon">📍</div>
+          <h3 class="value-title">在地優先</h3>
+          <p class="value-desc">優先選擇台灣在地品牌，縮短供應鏈、降低碳排放、支持本地經濟。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-image fade-in">
+          <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#b8c9a8 0%,#7a9468 100%);min-height:480px;"></div>
+          <div class="story-image__accent"></div>
+        </div>
+        <div class="story-text fade-in">
+          <span class="section-eyebrow">關於 LiMA</span>
+          <blockquote class="story-quote">
+            「每一件日常用品，都是一次選擇的機會。」
+          </blockquote>
+          <p class="story-body">
+            LiMA 源自對永續生活的嚮往。我們相信，美好的設計與對地球的責任並不衝突——它們本應共存。
+          </p>
+          <p class="story-body">
+            我們花費數個月深入了解每一個合作品牌的生產方式、材料來源與品牌精神，只有通過嚴格審核的商品，才能進入 LiMA 的選品型錄。
+          </p>
+          <a href="about.html" class="btn-primary">了解品牌理念</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="container fade-in">
+      <h2 class="newsletter__title">加入 LiMA 選品社群</h2>
+      <p class="newsletter__sub">每月收到最新永續選品資訊與生活靈感</p>
+      <div class="newsletter__form">
+        <input class="newsletter__input" type="email" placeholder="輸入您的電子信箱" />
+        <button class="newsletter__btn">訂閱</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Li<span>MA</span></div>
+        <p class="footer__brand-desc">匯聚對地球友善的精選永續商品，以美好設計實踐日常責任。</p>
+      </div>
+      <div>
+        <p class="footer__col-title">探索</p>
+        <ul class="footer__col-links">
+          <li><a href="catalog.html">選品型錄</a></li>
+          <li><a href="catalog.html#生活用品">生活用品</a></li>
+          <li><a href="catalog.html#食品">食品飲品</a></li>
+          <li><a href="catalog.html#個人護理">個人護理</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">關於</p>
+        <ul class="footer__col-links">
+          <li><a href="about.html">品牌理念</a></li>
+          <li><a href="about.html#選品標準">選品標準</a></li>
+          <li><a href="about.html#團隊">團隊介紹</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">聯絡</p>
+        <ul class="footer__col-links">
+          <li><a href="mailto:hello@lima-sustainability.com">hello@lima.com</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">LINE 官方帳號</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 LiMA 永續選品型錄. All rights reserved.</p>
+      <div class="footer__bottom-links">
+        <a href="#">隱私政策</a>
+        <a href="#">服務條款</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

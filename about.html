@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>品牌理念 — LiMA 永續選品</title>
+  <meta name="description" content="了解 LiMA 的品牌故事、選品哲學，以及我們對永續未來的承諾。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-hero {
+      min-height: 56vh;
+      background: linear-gradient(160deg, #c8d5be 0%, #8fa882 40%, #4a5e3a 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: clamp(60px,8vw,120px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(26,26,24,0.22);
+    }
+    .about-hero__content {
+      position: relative;
+      z-index: 1;
+    }
+    .about-hero__eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+    }
+    .about-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(44px,7vw,100px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.08;
+      max-width: 700px;
+    }
+    .about-hero__title em { font-style: italic; color: rgba(200,213,190,0.9); }
+
+    /* MISSION */
+    .mission {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .mission__text {}
+    .mission__quote {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 38px);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 28px;
+      padding-left: 24px;
+      border-left: 2px solid var(--sage);
+    }
+    .mission__body {
+      font-size: 15px;
+      color: var(--stone);
+      line-height: 1.85;
+      font-family: var(--font-serif);
+      font-weight: 300;
+    }
+    .mission__body + .mission__body { margin-top: 16px; }
+    .mission__image {
+      aspect-ratio: 3/4;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--warm-grey);
+      position: relative;
+    }
+    .mission__image::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: -16px;
+      width: 120px;
+      height: 120px;
+      background: rgba(122,140,110,0.18);
+      border-radius: 4px;
+      z-index: -1;
+    }
+
+    /* TIMELINE */
+    .timeline { max-width: 720px; margin: 0 auto; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding-bottom: 48px;
+      position: relative;
+    }
+    .timeline-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 38px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .timeline-year {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--sage);
+      text-align: center;
+      padding-top: 4px;
+    }
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--sage);
+      position: absolute;
+      left: 34px;
+      top: 10px;
+      border: 2px solid var(--cream);
+    }
+    .timeline-content {}
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .timeline-body {
+      font-size: 14px;
+      color: var(--stone);
+      line-height: 1.75;
+      font-family: var(--font-serif);
+    }
+
+    /* STANDARDS */
+    .standards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--border);
+    }
+    .standard-item {
+      background: var(--white);
+      padding: 48px 40px;
+      transition: background 0.3s;
+    }
+    .standard-item:hover { background: var(--warm-grey); }
+    .standard-num {
+      font-family: var(--font-display);
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--sand);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .standard-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    .standard-body {
+      font-size: 14px;
+      color: var(--stone);
+      line-height: 1.8;
+      font-family: var(--font-serif);
+    }
+    .standard-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+    .team-card { text-align: center; }
+    .team-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      overflow: hidden;
+      background: var(--warm-grey);
+    }
+    .team-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 14px;
+    }
+    .team-bio {
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.75;
+      font-family: var(--font-serif);
+    }
+
+    /* IMPACT */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    .impact-item {}
+    .impact-number {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .impact-number span { color: var(--sage-light); }
+    .impact-label {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+
+    @media (max-width: 900px) {
+      .mission { grid-template-columns: 1fr; gap: 40px; }
+      .mission__image { aspect-ratio: 16/9; }
+      .standards-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .impact-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    }
+    @media (max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .impact-grid { grid-template-columns: 1fr 1fr; }
+      .timeline-item { grid-template-columns: 60px 1fr; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Li<span>MA</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="catalog.html">選品型錄</a></li>
+      <li><a href="about.html" class="active">品牌理念</a></li>
+      <li><a href="contact.html" class="nav__cta">聯絡我們</a></li>
+    </ul>
+    <div class="nav__hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page" style="padding-top:0;">
+
+  <!-- HERO -->
+  <div class="about-hero">
+    <div class="container about-hero__content">
+      <p class="about-hero__eyebrow">關於 LiMA</p>
+      <h1 class="about-hero__title">
+        用選擇<br><em>改變世界</em>
+      </h1>
+    </div>
+  </div>
+
+  <!-- MISSION -->
+  <section class="section">
+    <div class="container">
+      <div class="mission">
+        <div class="mission__text fade-in">
+          <span class="section-eyebrow">我們的使命</span>
+          <blockquote class="mission__quote" style="margin-top:20px;">
+            「每一件日常用品，都是一次選擇地球的機會。」
+          </blockquote>
+          <p class="mission__body">
+            LiMA 創立於 2022 年，源自一個簡單的信念：永續生活不應該是妥協，而是一種更美好的生活方式。
+          </p>
+          <p class="mission__body">
+            我們匯集來自台灣與世界各地對地球友善的精選商品。每一件進入型錄的產品，都需通過我們嚴格的四項永續標準審核——天然材質、循環設計、公平貿易、在地優先。
+          </p>
+          <p class="mission__body">
+            我們不只是選品平台，更是一個倡議者。我們相信透過消費選擇，每一個人都有能力推動更大的改變。
+          </p>
+        </div>
+        <div class="mission__image fade-in">
+          <div class="img-placeholder" style="height:100%;min-height:400px;background:linear-gradient(150deg,#b8c9a8 0%,#6a8a58 100%);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT NUMBERS -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-header fade-in" style="margin-bottom:60px;">
+        <span class="section-eyebrow" style="color:var(--sage-light);">我們的影響力</span>
+        <h2 class="section-title" style="color:var(--white);">每一筆交易都在 <em style="color:var(--sage-light);">計算中</em></h2>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-item fade-in">
+          <div class="impact-number">120<span>+</span></div>
+          <div class="impact-label">精選品項</div>
+        </div>
+        <div class="impact-item fade-in">
+          <div class="impact-number">35<span>+</span></div>
+          <div class="impact-label">合作永續品牌</div>
+        </div>
+        <div class="impact-item fade-in">
+          <div class="impact-number">8<span>k+</span></div>
+          <div class="impact-label">服務顧客人數</div>
+        </div>
+        <div class="impact-item fade-in">
+          <div class="impact-number">5<span>%</span></div>
+          <div class="impact-label">收益捐助環境計畫</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND STORY TIMELINE -->
+  <section class="section section--alt" id="timeline">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">品牌歷程</span>
+        <h2 class="section-title">LiMA 的 <em>故事</em></h2>
+      </div>
+      <div class="timeline fade-in">
+        <div class="timeline-item">
+          <div class="timeline-year">2022</div>
+          <div class="timeline-content">
+            <div class="timeline-dot"></div>
+            <h3 class="timeline-title">從一條毯子開始</h3>
+            <p class="timeline-body">創辦人 Jessica 在一次台東旅行中，遇見一位以苧麻編織的原住民工藝師，深受感動。她意識到許多在地永續工藝缺乏被看見的管道，決定創立 LiMA，為這些商品搭建橋樑。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023</div>
+          <div class="timeline-content">
+            <div class="timeline-dot"></div>
+            <h3 class="timeline-title">建立選品標準</h3>
+            <p class="timeline-body">邀請永續領域專家共同制定「LiMA 四項選品標準」，成為所有合作品牌必須通過的審核框架。上線第一年即吸引超過 2,000 名訂閱者。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-content">
+            <div class="timeline-dot"></div>
+            <h3 class="timeline-title">走向國際選品</h3>
+            <p class="timeline-body">開始引進來自日本、丹麥、秘魯等地的永續品牌，型錄擴展至 80 件精選商品，並啟動「購一種樹」計畫，每筆訂單對應一棵台灣本土樹木的種植。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-content">
+            <div class="timeline-dot"></div>
+            <h3 class="timeline-title">深化品牌影響力</h3>
+            <p class="timeline-body">推出 LiMA 選品型錄網站，服務超過 8,000 名顧客，持續擴大合作品牌至 35 家以上，並將 5% 收益固定捐助環境保育與原住民文化傳承計畫。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTION STANDARDS -->
+  <section class="section" id="選品標準">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">LiMA 審核框架</span>
+        <h2 class="section-title">四項 <em>選品標準</em></h2>
+        <p class="section-subtitle">每一件進入 LiMA 型錄的商品，都必須通過以下四項嚴格審核。</p>
+      </div>
+      <div class="standards-grid fade-in">
+        <div class="standard-item">
+          <div class="standard-num">01</div>
+          <h3 class="standard-title">天然材質</h3>
+          <p class="standard-body">
+            所有選品優先使用有機、天然或可再生材料，包括有機棉、苧麻、竹、木材、蜂蠟等。我們核查材料溯源，確認無有害化學物質添加。
+          </p>
+          <div class="standard-tags">
+            <span class="tag">GOTS 認證</span>
+            <span class="tag">Oeko-Tex</span>
+            <span class="tag">有機農業</span>
+          </div>
+        </div>
+        <div class="standard-item">
+          <div class="standard-num">02</div>
+          <h3 class="standard-title">循環設計</h3>
+          <p class="standard-body">
+            從產品設計到包裝，皆須符合循環經濟原則。包括可拆解維修、可回收、可堆肥降解，或採用再生材料製造。包裝禁止使用一次性塑膠。
+          </p>
+          <div class="standard-tags">
+            <span class="tag">零廢棄包裝</span>
+            <span class="tag">可堆肥降解</span>
+            <span class="tag">再生材質</span>
+          </div>
+        </div>
+        <div class="standard-item">
+          <div class="standard-num">03</div>
+          <h3 class="standard-title">公平貿易</h3>
+          <p class="standard-body">
+            確保供應鏈每一個環節的勞工皆獲得公平薪酬，工作環境安全合規，無童工。我們優先合作具有 Fair Trade 或同等認證的品牌。
+          </p>
+          <div class="standard-tags">
+            <span class="tag">Fair Trade</span>
+            <span class="tag">勞工保障</span>
+            <span class="tag">透明供應鏈</span>
+          </div>
+        </div>
+        <div class="standard-item">
+          <div class="standard-num">04</div>
+          <h3 class="standard-title">在地優先</h3>
+          <p class="standard-body">
+            超過 60% 的選品來自台灣在地品牌或小農，縮短供應鏈、降低運輸碳排，同時支持本地經濟與文化傳承。在地優先是 LiMA 的核心精神。
+          </p>
+          <div class="standard-tags">
+            <span class="tag">台灣製造</span>
+            <span class="tag">短鏈供應</span>
+            <span class="tag">在地文化</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section section--alt" id="團隊">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">核心團隊</span>
+        <h2 class="section-title">認識 <em>我們</em></h2>
+      </div>
+      <div class="team-grid fade-in">
+        <div class="team-card">
+          <div class="team-avatar">
+            <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#c8d5be 0%,#8fa882 100%);"></div>
+          </div>
+          <h3 class="team-name">Jessica Lin</h3>
+          <p class="team-role">創辦人 / 選品總監</p>
+          <p class="team-bio">永續設計碩士，深耕台灣在地工藝議題逾八年。相信美好設計與環境責任可以共存。</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">
+            <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#d9cfc0 0%,#b5a990 100%);"></div>
+          </div>
+          <h3 class="team-name">Marcus Chen</h3>
+          <p class="team-role">永續顧問 / 選品審核</p>
+          <p class="team-bio">前非政府組織環保研究員，負責建立並維護 LiMA 四項選品標準審核框架。</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">
+            <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#cdd4ce 0%,#8fa898 100%);"></div>
+          </div>
+          <h3 class="team-name">Yuki Wang</h3>
+          <p class="team-role">品牌與社群經營</p>
+          <p class="team-bio">擅長以溫柔的視覺語言傳達永續理念，讓更多人認識並愛上對地球友善的生活方式。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="text-align:center;">
+    <div class="container fade-in">
+      <div class="divider"></div>
+      <h2 class="section-title">準備好 <em>一起選擇</em> 了嗎？</h2>
+      <p class="section-subtitle" style="margin-bottom:40px;">瀏覽我們的永續選品型錄，每一次購買都是一次改變的行動。</p>
+      <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+        <a href="catalog.html" class="btn-primary">瀏覽選品型錄</a>
+        <a href="contact.html" class="btn-outline">與我們聯絡</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Li<span>MA</span></div>
+        <p class="footer__brand-desc">匯聚對地球友善的精選永續商品，以美好設計實踐日常責任。</p>
+      </div>
+      <div>
+        <p class="footer__col-title">探索</p>
+        <ul class="footer__col-links">
+          <li><a href="catalog.html">選品型錄</a></li>
+          <li><a href="catalog.html">生活用品</a></li>
+          <li><a href="catalog.html">食品飲品</a></li>
+          <li><a href="catalog.html">個人護理</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">關於</p>
+        <ul class="footer__col-links">
+          <li><a href="about.html">品牌理念</a></li>
+          <li><a href="about.html#選品標準">選品標準</a></li>
+          <li><a href="about.html#團隊">團隊介紹</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">聯絡</p>
+        <ul class="footer__col-links">
+          <li><a href="mailto:hello@lima.com">hello@lima.com</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">LINE 官方帳號</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 LiMA 永續選品型錄. All rights reserved.</p>
+      <div class="footer__bottom-links">
+        <a href="#">隱私政策</a>
+        <a href="#">服務條款</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

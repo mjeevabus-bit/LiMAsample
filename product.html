@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>有機苧麻多功能毯 — LiMA 永續選品</title>
+  <meta name="description" content="以天然苧麻纖維編織，輕盈透氣，適合家居或戶外使用，可完全生物降解。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .breadcrumb {
+      padding: 20px 0;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .breadcrumb a { color: var(--stone); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--ink); }
+    .breadcrumb span { color: var(--sand); }
+
+    /* PRODUCT LAYOUT */
+    .product-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      padding: 40px 0 80px;
+    }
+
+    /* GALLERY */
+    .gallery { position: sticky; top: calc(var(--nav-h) + 24px); }
+    .gallery__main {
+      aspect-ratio: 4/5;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--warm-grey);
+      margin-bottom: 16px;
+      cursor: zoom-in;
+    }
+    .gallery__main-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .gallery__main:hover .gallery__main-img { transform: scale(1.03); }
+
+    .gallery__thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .gallery__thumb {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--warm-grey);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .gallery__thumb.active { border-color: var(--accent); }
+    .gallery__thumb div { width: 100%; height: 100%; }
+
+    /* PRODUCT INFO */
+    .product-info { }
+
+    .product-info__category {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 16px;
+    }
+
+    .product-info__name {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .product-info__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .product-info__rating {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stars { color: var(--sage); font-size: 16px; letter-spacing: 2px; }
+    .rating-count { font-size: 13px; color: var(--stone); }
+
+    .product-info__price {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .product-info__price-note {
+      font-size: 12px;
+      color: var(--stone);
+      margin-bottom: 32px;
+    }
+
+    .option-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 12px;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .color-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .color-dot:hover, .color-dot.active { border-color: var(--ink); transform: scale(1.1); }
+
+    .size-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .size-btn {
+      padding: 10px 20px;
+      border: 1px solid var(--sand);
+      background: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+    .size-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .size-btn.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--sand);
+      border-radius: 2px;
+    }
+    .qty-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--stone);
+      transition: color 0.2s;
+      font-family: var(--font-body);
+    }
+    .qty-btn:hover { color: var(--ink); }
+    .qty-val {
+      width: 44px;
+      text-align: center;
+      font-size: 15px;
+      color: var(--ink);
+      border-left: 1px solid var(--sand);
+      border-right: 1px solid var(--sand);
+      height: 44px;
+      line-height: 44px;
+    }
+
+    .add-to-cart {
+      flex: 1;
+      padding: 16px;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.25s;
+      font-family: var(--font-body);
+    }
+    .add-to-cart:hover { background: var(--ink); }
+
+    .wishlist-btn {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--sand);
+      background: none;
+      border-radius: 2px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: border-color 0.25s;
+    }
+    .wishlist-btn:hover { border-color: var(--ink); }
+
+    .shipping-note {
+      margin-top: 20px;
+      display: flex;
+      gap: 16px;
+      flex-direction: column;
+    }
+    .shipping-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--stone);
+      font-family: var(--font-serif);
+    }
+    .shipping-icon { font-size: 18px; }
+
+    /* TABS */
+    .product-tabs { margin-top: 80px; }
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .tab-btn {
+      padding: 16px 32px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--stone);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.25s;
+      font-family: var(--font-body);
+    }
+    .tab-btn.active { color: var(--ink); border-bottom-color: var(--accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .product-desc p {
+      font-size: 15px;
+      color: var(--stone);
+      line-height: 1.85;
+      font-family: var(--font-serif);
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .spec-table tr { border-bottom: 1px solid var(--border); }
+    .spec-table td {
+      padding: 16px 0;
+      font-size: 14px;
+      font-family: var(--font-serif);
+    }
+    .spec-table td:first-child {
+      color: var(--stone);
+      width: 40%;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .spec-table td:last-child { color: var(--ink); }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .cert-item {
+      padding: 24px;
+      background: var(--warm-grey);
+      border-radius: 4px;
+      text-align: center;
+    }
+    .cert-icon { font-size: 32px; margin-bottom: 12px; }
+    .cert-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .cert-desc { font-size: 12px; color: var(--stone); font-family: var(--font-serif); }
+
+    .review-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .reviewer-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+    .review-date { font-size: 12px; color: var(--stone); }
+    .review-body { font-size: 14px; color: var(--stone); line-height: 1.75; font-family: var(--font-serif); }
+
+    /* RELATED */
+    .related-section { background: var(--warm-grey); padding: var(--section-py) 0; }
+
+    @media (max-width: 900px) {
+      .product-detail { grid-template-columns: 1fr; gap: 40px; }
+      .gallery { position: static; }
+      .cert-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .tab-btn { padding: 12px 16px; font-size: 11px; }
+      .cert-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Li<span>MA</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="catalog.html" class="active">選品型錄</a></li>
+      <li><a href="about.html">品牌理念</a></li>
+      <li><a href="contact.html" class="nav__cta">聯絡我們</a></li>
+    </ul>
+    <div class="nav__hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <a href="index.html">首頁</a>
+      <span>/</span>
+      <a href="catalog.html">選品型錄</a>
+      <span>/</span>
+      <a href="catalog.html">生活用品</a>
+      <span>/</span>
+      有機苧麻多功能毯
+    </div>
+
+    <!-- PRODUCT DETAIL -->
+    <div class="product-detail">
+
+      <!-- GALLERY -->
+      <div class="gallery fade-in">
+        <div class="gallery__main">
+          <div class="img-placeholder gallery__main-img" id="mainImg"
+            style="background:linear-gradient(150deg,#c8d5be 0%,#8fa882 100%);height:100%;min-height:500px;">
+          </div>
+        </div>
+        <div class="gallery__thumbs">
+          <div class="gallery__thumb active" onclick="switchImg(this, 'linear-gradient(150deg,#c8d5be 0%,#8fa882 100%)')">
+            <div style="height:100%;background:linear-gradient(150deg,#c8d5be 0%,#8fa882 100%);"></div>
+          </div>
+          <div class="gallery__thumb" onclick="switchImg(this, 'linear-gradient(150deg,#d4cfc4 0%,#b8b0a0 100%)')">
+            <div style="height:100%;background:linear-gradient(150deg,#d4cfc4 0%,#b8b0a0 100%);"></div>
+          </div>
+          <div class="gallery__thumb" onclick="switchImg(this, 'linear-gradient(150deg,#cdd4ce 0%,#8fa898 100%)')">
+            <div style="height:100%;background:linear-gradient(150deg,#cdd4ce 0%,#8fa898 100%);"></div>
+          </div>
+          <div class="gallery__thumb" onclick="switchImg(this, 'linear-gradient(150deg,#d8d0c0 0%,#a09070 100%)')">
+            <div style="height:100%;background:linear-gradient(150deg,#d8d0c0 0%,#a09070 100%);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="product-info fade-in">
+        <p class="product-info__category">生活用品</p>
+        <h1 class="product-info__name">有機苧麻<br>多功能毯</h1>
+
+        <div class="product-info__tags">
+          <span class="tag tag--sage">🌿 天然材質</span>
+          <span class="tag tag--sage">♻️ 可生物降解</span>
+          <span class="tag tag--sage">🤝 公平貿易</span>
+          <span class="tag tag--sage">📍 在地製造</span>
+        </div>
+
+        <div class="product-info__rating">
+          <div class="stars">★★★★★</div>
+          <span class="rating-count">4.9 分（共 48 則評價）</span>
+        </div>
+
+        <div class="product-info__price">NT$ 2,800</div>
+        <p class="product-info__price-note">含稅 · 全台免運（訂單滿 NT$1,500）</p>
+
+        <p class="option-label">顏色選擇</p>
+        <div class="color-options">
+          <div class="color-dot active" style="background:#8fa882;" title="自然綠" onclick="selectColor(this)"></div>
+          <div class="color-dot" style="background:#b8b0a0;" title="沙漠棕" onclick="selectColor(this)"></div>
+          <div class="color-dot" style="background:#8fa898;" title="薄霧藍" onclick="selectColor(this)"></div>
+          <div class="color-dot" style="background:#c8c0b0;" title="杏仁白" onclick="selectColor(this)"></div>
+        </div>
+
+        <p class="option-label">尺寸</p>
+        <div class="size-options">
+          <button class="size-btn" onclick="selectSize(this)">小 70×100cm</button>
+          <button class="size-btn active" onclick="selectSize(this)">中 120×160cm</button>
+          <button class="size-btn" onclick="selectSize(this)">大 150×200cm</button>
+        </div>
+
+        <div class="qty-row">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <div class="qty-val" id="qtyVal">1</div>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <button class="add-to-cart">加入詢問清單</button>
+          <button class="wishlist-btn" title="收藏">♡</button>
+        </div>
+
+        <div class="shipping-note">
+          <div class="shipping-item"><span class="shipping-icon">🚚</span> 2–4 個工作天出貨，全台免運</div>
+          <div class="shipping-item"><span class="shipping-icon">📦</span> 採用 100% 可回收包裝材料</div>
+          <div class="shipping-item"><span class="shipping-icon">🔄</span> 30 天無條件退換貨保障</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="product-tabs fade-in">
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('desc', this)">商品描述</button>
+        <button class="tab-btn" onclick="switchTab('spec', this)">規格與材質</button>
+        <button class="tab-btn" onclick="switchTab('cert', this)">永續認證</button>
+        <button class="tab-btn" onclick="switchTab('reviews', this)">顧客評價 (48)</button>
+      </div>
+
+      <!-- DESC -->
+      <div class="tab-panel active" id="tab-desc">
+        <div class="product-desc" style="max-width:680px;">
+          <p>這條多功能毯以 100% 有機苧麻纖維手工編織而成。苧麻是一種天然草本植物，生長過程無需農藥，碳足跡極低，且具有優異的抗菌、抗UV特性。</p>
+          <p>毯子質地輕盈透氣，夏季可作為薄被或沙灘毯使用，秋冬搭配羊毛毯層疊使用同樣溫暖。顏色以天然草木染製成，長期使用不褪色，每件都略有手工差異，獨一無二。</p>
+          <p>使用壽命結束後，可直接進行堆肥降解，不留任何環境負擔。我們建議以冷水手洗或輕柔機洗，晾乾保存，延長使用壽命。</p>
+          <p>此商品由台灣在地工藝坊製作，與台東原住民社區合作，每筆收益的 5% 將捐助部落婦女技藝傳承計畫。</p>
+        </div>
+      </div>
+
+      <!-- SPEC -->
+      <div class="tab-panel" id="tab-spec">
+        <table class="spec-table" style="max-width:560px;">
+          <tr><td>材質</td><td>100% 有機苧麻（GOTS 認證）</td></tr>
+          <tr><td>染色方式</td><td>天然草木染，無重金屬</td></tr>
+          <tr><td>尺寸（中）</td><td>120 × 160 cm</td></tr>
+          <tr><td>重量（中）</td><td>約 480g</td></tr>
+          <tr><td>產地</td><td>台灣台東</td></tr>
+          <tr><td>洗滌方式</td><td>冷水手洗或機洗輕柔模式，不可烘乾</td></tr>
+          <tr><td>包裝</td><td>再生棉布袋 + 再生紙標籤</td></tr>
+          <tr><td>使用壽命後處理</td><td>可堆肥降解（100%）</td></tr>
+        </table>
+      </div>
+
+      <!-- CERT -->
+      <div class="tab-panel" id="tab-cert">
+        <div class="cert-grid">
+          <div class="cert-item">
+            <div class="cert-icon">🌿</div>
+            <div class="cert-name">GOTS 有機紡織認證</div>
+            <div class="cert-desc">Global Organic Textile Standard，全球最嚴格的有機紡織品認證之一。</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">🤝</div>
+            <div class="cert-name">公平貿易認證</div>
+            <div class="cert-desc">確保所有生產者獲得公平薪酬，工作環境安全且有尊嚴。</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">♻️</div>
+            <div class="cert-name">100% 可生物降解</div>
+            <div class="cert-desc">產品與包裝皆可完全分解回歸自然，不留任何塑膠殘留。</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">🌱</div>
+            <div class="cert-name">碳中和生產</div>
+            <div class="cert-desc">生產過程碳排放已通過植樹計畫完全抵銷。</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">🎨</div>
+            <div class="cert-name">Oeko-Tex Standard 100</div>
+            <div class="cert-desc">所有染料通過有害物質檢測，貼近肌膚安全無虞。</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">📍</div>
+            <div class="cert-name">台灣在地製造</div>
+            <div class="cert-desc">短鏈供應，支持本地工藝，降低國際運輸碳排放。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEWS -->
+      <div class="tab-panel" id="tab-reviews">
+        <div style="display:flex;align-items:center;gap:24px;margin-bottom:40px;padding:32px;background:var(--warm-grey);border-radius:4px;">
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-display);font-size:64px;font-weight:300;line-height:1;color:var(--ink);">4.9</div>
+            <div class="stars" style="margin:8px 0;">★★★★★</div>
+            <div style="font-size:12px;color:var(--stone);">48 則評價</div>
+          </div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+              <span style="font-size:12px;color:var(--stone);width:20px;">5</span>
+              <div style="flex:1;height:4px;background:var(--sand-light);border-radius:2px;"><div style="width:88%;height:100%;background:var(--sage);border-radius:2px;"></div></div>
+              <span style="font-size:12px;color:var(--stone);">42</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+              <span style="font-size:12px;color:var(--stone);width:20px;">4</span>
+              <div style="flex:1;height:4px;background:var(--sand-light);border-radius:2px;"><div style="width:10%;height:100%;background:var(--sage);border-radius:2px;"></div></div>
+              <span style="font-size:12px;color:var(--stone);">5</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:12px;color:var(--stone);width:20px;">3</span>
+              <div style="flex:1;height:4px;background:var(--sand-light);border-radius:2px;"><div style="width:2%;height:100%;background:var(--sage);border-radius:2px;"></div></div>
+              <span style="font-size:12px;color:var(--stone);">1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <p class="reviewer-name">陳小如</p>
+              <div class="stars" style="font-size:14px;">★★★★★</div>
+            </div>
+            <p class="review-date">2025 年 10 月</p>
+          </div>
+          <p class="review-body">質感超乎預期，摸起來比想像中柔軟，顏色也非常好看。重點是包裝真的全部都是可回收的，連標籤都是再生紙，細節很用心。買了中號，鋪在沙發上剛剛好，很推薦！</p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <p class="reviewer-name">林宗翰</p>
+              <div class="stars" style="font-size:14px;">★★★★★</div>
+            </div>
+            <p class="review-date">2025 年 9 月</p>
+          </div>
+          <p class="review-body">買來送朋友當搬家禮物，朋友非常喜歡。知道是台東原住民合作製作的，感覺更有意義。材質洗過幾次後還是很好，沒有縮水。</p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <p class="reviewer-name">Wendy C.</p>
+              <div class="stars" style="font-size:14px;">★★★★☆</div>
+            </div>
+            <p class="review-date">2025 年 8 月</p>
+          </div>
+          <p class="review-body">整體很滿意，觸感舒服，夏天蓋剛好不會太熱。扣一星是因為顏色跟照片略有差異，實物偏黃一點點，但其實也很好看，不影響喜愛程度。</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- RELATED PRODUCTS -->
+  <section class="related-section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">延伸探索</span>
+        <h2 class="section-title">你可能也會喜歡</h2>
+      </div>
+      <div class="grid-3 fade-in">
+
+        <div class="product-card">
+          <div class="product-card__image">
+            <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#d9cfc0 0%,#b5a990 100%);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">生活用品</p>
+            <h3 class="product-card__name">蜂蠟保鮮布組</h3>
+            <p class="product-card__desc">可重複使用 200 次以上，完全取代保鮮膜。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 650</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card__image">
+            <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#cdd4ce 0%,#8fa898 100%);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">時尚配件</p>
+            <h3 class="product-card__name">有機棉針織圍巾</h3>
+            <p class="product-card__desc">GOTS 認證有機棉，天然草木染色，柔軟不刺激肌膚。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 1,200</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card__image">
+            <div class="img-placeholder" style="height:100%;background:linear-gradient(150deg,#c8d5be 0%,#8fa882 100%);filter:hue-rotate(30deg);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">生活用品</p>
+            <h3 class="product-card__name">竹製餐具組</h3>
+            <p class="product-card__desc">台灣在地孟宗竹手工製作，取代一次性餐具。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 480</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Li<span>MA</span></div>
+        <p class="footer__brand-desc">匯聚對地球友善的精選永續商品，以美好設計實踐日常責任。</p>
+      </div>
+      <div>
+        <p class="footer__col-title">探索</p>
+        <ul class="footer__col-links">
+          <li><a href="catalog.html">選品型錄</a></li>
+          <li><a href="catalog.html">生活用品</a></li>
+          <li><a href="catalog.html">食品飲品</a></li>
+          <li><a href="catalog.html">個人護理</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">關於</p>
+        <ul class="footer__col-links">
+          <li><a href="about.html">品牌理念</a></li>
+          <li><a href="about.html">選品標準</a></li>
+          <li><a href="about.html">團隊介紹</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">聯絡</p>
+        <ul class="footer__col-links">
+          <li><a href="mailto:hello@lima.com">hello@lima.com</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">LINE 官方帳號</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 LiMA 永續選品型錄. All rights reserved.</p>
+      <div class="footer__bottom-links">
+        <a href="#">隱私政策</a>
+        <a href="#">服務條款</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+let qty = 1;
+function changeQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('qtyVal').textContent = qty;
+}
+function switchImg(thumb, bg) {
+  document.querySelectorAll('.gallery__thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+  document.getElementById('mainImg').style.background = bg;
+}
+function selectColor(dot) {
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  dot.classList.add('active');
+}
+function selectSize(btn) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>

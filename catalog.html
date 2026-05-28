@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>選品型錄 — LiMA 永續選品</title>
+  <meta name="description" content="LiMA 精選永續商品型錄，涵蓋生活用品、食品、個人護理、時尚配件。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .catalog-header {
+      background: var(--warm-grey);
+      padding: clamp(60px, 8vw, 100px) 0 clamp(40px, 5vw, 64px);
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-bar {
+      position: sticky;
+      top: var(--nav-h);
+      background: rgba(247,244,239,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+      padding: 0;
+    }
+    .filter-bar__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+    }
+    .filter-btn {
+      padding: 18px 24px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      border: none;
+      background: none;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.25s;
+      font-family: var(--font-body);
+    }
+    .filter-btn:hover { color: var(--ink); }
+    .filter-btn.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 8px;
+    }
+
+    .sort-select {
+      margin-left: auto;
+      padding: 8px 16px;
+      border: 1px solid var(--sand);
+      background: transparent;
+      font-size: 12px;
+      color: var(--stone);
+      font-family: var(--font-body);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .catalog-count {
+      font-size: 13px;
+      color: var(--stone);
+      margin-bottom: 40px;
+    }
+
+    .load-more {
+      text-align: center;
+      margin-top: 64px;
+    }
+
+    .sustainability-bar {
+      background: var(--accent);
+      padding: 14px 0;
+      text-align: center;
+    }
+    .sustainability-bar p {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.85);
+    }
+    .sustainability-bar span { color: var(--white); font-weight: 500; }
+
+    /* Product placeholder colors */
+    .p-img-1 { background: linear-gradient(150deg,#c8d5be 0%,#8fa882 100%); }
+    .p-img-2 { background: linear-gradient(150deg,#d9cfc0 0%,#b5a990 100%); }
+    .p-img-3 { background: linear-gradient(150deg,#cdd4ce 0%,#8fa898 100%); }
+    .p-img-4 { background: linear-gradient(150deg,#d4c9ba 0%,#a89880 100%); }
+    .p-img-5 { background: linear-gradient(150deg,#c4cdd0 0%,#8098a0 100%); }
+    .p-img-6 { background: linear-gradient(150deg,#d0d4c4 0%,#90a080 100%); }
+
+    @media (max-width: 900px) {
+      .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar__inner { padding: 0 20px; }
+    }
+    @media (max-width: 600px) {
+      .catalog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Li<span>MA</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="catalog.html" class="active">選品型錄</a></li>
+      <li><a href="about.html">品牌理念</a></li>
+      <li><a href="contact.html" class="nav__cta">聯絡我們</a></li>
+    </ul>
+    <div class="nav__hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- SUSTAINABILITY BAR -->
+<div class="sustainability-bar" style="margin-top:var(--nav-h);">
+  <p>🌿 所有選品均通過 <span>永續認證審核</span>，購買即支持友善地球的生產方式</p>
+</div>
+
+<div class="page" style="padding-top:0;">
+
+  <!-- CATALOG HEADER -->
+  <div class="catalog-header">
+    <div class="container">
+      <span class="section-eyebrow">精選型錄</span>
+      <h1 class="section-title" style="margin-top:16px;">全部 <em>選品</em></h1>
+      <p class="section-subtitle">每一件商品背後，都有一個對地球負責任的品牌故事。</p>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-bar__inner">
+      <button class="filter-btn active" onclick="filterProducts('all', this)">全部</button>
+      <div class="filter-divider"></div>
+      <button class="filter-btn" onclick="filterProducts('生活用品', this)">生活用品</button>
+      <button class="filter-btn" onclick="filterProducts('食品', this)">食品飲品</button>
+      <button class="filter-btn" onclick="filterProducts('個人護理', this)">個人護理</button>
+      <button class="filter-btn" onclick="filterProducts('時尚配件', this)">時尚配件</button>
+      <button class="filter-btn" onclick="filterProducts('文具', this)">文具用品</button>
+      <select class="sort-select">
+        <option>排序：推薦</option>
+        <option>價格由低到高</option>
+        <option>價格由高到低</option>
+        <option>最新上架</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- CATALOG GRID -->
+  <section class="section">
+    <div class="container">
+      <p class="catalog-count" id="count">共 <strong>12</strong> 件選品</p>
+      <div class="catalog-grid" id="productGrid">
+
+        <!-- Product 1 -->
+        <div class="product-card fade-in" data-category="生活用品">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-1" style="height:100%;"></div>
+            <div class="product-card__badge">永續認證</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">生活用品</p>
+            <h3 class="product-card__name">有機苧麻多功能毯</h3>
+            <p class="product-card__desc">以天然苧麻纖維編織，輕盈透氣，適合家居或戶外使用，可完全生物降解。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 2,800</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card fade-in" data-category="食品">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-2" style="height:100%;"></div>
+            <div class="product-card__badge">有機認證</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">食品飲品</p>
+            <h3 class="product-card__name">冷壓初榨橄欖油</h3>
+            <p class="product-card__desc">來自地中海小農，以傳統冷壓工法萃取，保留完整多酚與營養成分。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 680</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card fade-in" data-category="個人護理">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-3" style="height:100%;"></div>
+            <div class="product-card__badge">零廢棄</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">個人護理</p>
+            <h3 class="product-card__name">零廢棄潔顏皂磚</h3>
+            <p class="product-card__desc">無塑包裝，由植物油脂製成，不含人工香精與防腐劑，適合各種膚質。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 380</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card fade-in" data-category="時尚配件">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-4" style="height:100%;"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">時尚配件</p>
+            <h3 class="product-card__name">再生羊毛帆布托特包</h3>
+            <p class="product-card__desc">以回收羊毛與有機帆布製成，耐用兼具質感，減少紡織廢料。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 1,680</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card fade-in" data-category="生活用品">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-5" style="height:100%;"></div>
+            <div class="product-card__badge">在地製造</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">生活用品</p>
+            <h3 class="product-card__name">竹製餐具組</h3>
+            <p class="product-card__desc">以台灣在地孟宗竹手工製作，輕巧便攜，取代一次性餐具的最佳選擇。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 480</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card fade-in" data-category="食品">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-6" style="height:100%;"></div>
+            <div class="product-card__badge">公平貿易</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">食品飲品</p>
+            <h3 class="product-card__name">單一莊園精品可可粉</h3>
+            <p class="product-card__desc">公平貿易認證，來自秘魯高地小農，純天然無添加，可可脂含量 22%。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 560</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="product-card fade-in" data-category="個人護理">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-1" style="height:100%;filter:hue-rotate(20deg);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">個人護理</p>
+            <h3 class="product-card__name">草本固態洗髮皂</h3>
+            <p class="product-card__desc">含迷迭香與薄荷精油，固體配方節省 80% 水資源，瓶裝相當於 3 瓶洗髮精。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 420</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="product-card fade-in" data-category="文具">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-3" style="height:100%;filter:hue-rotate(-20deg);"></div>
+            <div class="product-card__badge">再生材質</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">文具用品</p>
+            <h3 class="product-card__name">再生紙精裝筆記本</h3>
+            <p class="product-card__desc">封面以廢棄牛皮紙壓製，內頁為 FSC 認證再生紙，墨水不透紙。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 320</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 9 -->
+        <div class="product-card fade-in" data-category="生活用品">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-4" style="height:100%;filter:hue-rotate(40deg);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">生活用品</p>
+            <h3 class="product-card__name">蜂蠟保鮮布組</h3>
+            <p class="product-card__desc">以有機棉布塗覆天然蜂蠟製成，可重複使用 200 次以上，完全取代保鮮膜。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 650</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 10 -->
+        <div class="product-card fade-in" data-category="時尚配件">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-2" style="height:100%;filter:hue-rotate(-30deg);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">時尚配件</p>
+            <h3 class="product-card__name">有機棉針織圍巾</h3>
+            <p class="product-card__desc">GOTS 認證有機棉，天然草木染色，柔軟不刺激肌膚，四季皆宜。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 1,200</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 11 -->
+        <div class="product-card fade-in" data-category="食品">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-6" style="height:100%;filter:hue-rotate(60deg);"></div>
+            <div class="product-card__badge">在地農場</div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">食品飲品</p>
+            <h3 class="product-card__name">有機台灣烏龍茶</h3>
+            <p class="product-card__desc">產自阿里山有機茶園，無農藥，手工採摘，每盒附產地溯源 QR Code。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 780</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 12 -->
+        <div class="product-card fade-in" data-category="文具">
+          <div class="product-card__image">
+            <div class="img-placeholder p-img-5" style="height:100%;filter:hue-rotate(-10deg);"></div>
+          </div>
+          <div class="product-card__body">
+            <p class="product-card__category">文具用品</p>
+            <h3 class="product-card__name">植物基環保原子筆</h3>
+            <p class="product-card__desc">筆身由玉米澱粉製成，可完全生物降解，書寫流暢，補充墨水組另售。</p>
+            <div class="product-card__footer">
+              <span class="product-card__price">NT$ 180</span>
+              <a href="product.html" class="product-card__link">查看詳情 →</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /productGrid -->
+
+      <div class="load-more fade-in">
+        <a href="#" class="btn-outline">載入更多選品</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Li<span>MA</span></div>
+        <p class="footer__brand-desc">匯聚對地球友善的精選永續商品，以美好設計實踐日常責任。</p>
+      </div>
+      <div>
+        <p class="footer__col-title">探索</p>
+        <ul class="footer__col-links">
+          <li><a href="catalog.html">選品型錄</a></li>
+          <li><a href="catalog.html">生活用品</a></li>
+          <li><a href="catalog.html">食品飲品</a></li>
+          <li><a href="catalog.html">個人護理</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">關於</p>
+        <ul class="footer__col-links">
+          <li><a href="about.html">品牌理念</a></li>
+          <li><a href="about.html">選品標準</a></li>
+          <li><a href="about.html">團隊介紹</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">聯絡</p>
+        <ul class="footer__col-links">
+          <li><a href="mailto:hello@lima.com">hello@lima.com</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">LINE 官方帳號</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 LiMA 永續選品型錄. All rights reserved.</p>
+      <div class="footer__bottom-links">
+        <a href="#">隱私政策</a>
+        <a href="#">服務條款</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+function filterProducts(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('[data-category]');
+  let visible = 0;
+  cards.forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.style.display = '';
+      visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.getElementById('count').innerHTML = `共 <strong>${visible}</strong> 件選品`;
+}
+</script>
+</body>
+</html>

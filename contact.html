@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>聯絡我們 — LiMA 永續選品</title>
+  <meta name="description" content="與 LiMA 聯絡，無論是選品諮詢、品牌合作或媒體採訪，我們都很樂意聆聽。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+      padding: 80px 0;
+    }
+
+    /* LEFT INFO */
+    .contact-info {}
+    .contact-info__title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+    .contact-info__title em { font-style: italic; color: var(--sage); }
+    .contact-info__desc {
+      font-size: 15px;
+      color: var(--stone);
+      line-height: 1.85;
+      font-family: var(--font-serif);
+      margin-bottom: 52px;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-bottom: 52px;
+    }
+    .contact-method {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .contact-method__icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(122,140,110,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .contact-method__label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 4px;
+    }
+    .contact-method__value {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .contact-method__sub {
+      font-size: 12px;
+      color: var(--stone);
+      margin-top: 4px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+    }
+    .social-link {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--sand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.25s;
+      color: var(--stone);
+    }
+    .social-link:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    /* RIGHT FORM */
+    .contact-form-wrap {
+      background: var(--white);
+      border-radius: 4px;
+      padding: clamp(40px, 5vw, 64px);
+      box-shadow: 0 8px 40px rgba(26,26,24,0.06);
+    }
+
+    .form-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .form-subtitle {
+      font-size: 13px;
+      color: var(--stone);
+      font-family: var(--font-serif);
+      margin-bottom: 36px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 10px;
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--sand);
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 14px;
+      font-family: var(--font-serif);
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--sage);
+      background: var(--white);
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--sand); }
+
+    .form-textarea { min-height: 140px; resize: vertical; }
+
+    .form-select { cursor: pointer; }
+
+    .inquiry-type {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .inquiry-chip {
+      padding: 8px 18px;
+      border: 1px solid var(--sand);
+      border-radius: 100px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--stone);
+      cursor: pointer;
+      transition: all 0.22s;
+      background: none;
+      font-family: var(--font-body);
+    }
+    .inquiry-chip.active,
+    .inquiry-chip:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    .form-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 28px;
+      cursor: pointer;
+    }
+    .form-check input { margin-top: 2px; accent-color: var(--accent); }
+    .form-check span {
+      font-size: 13px;
+      color: var(--stone);
+      font-family: var(--font-serif);
+      line-height: 1.6;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 18px;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.25s, transform 0.25s;
+      font-family: var(--font-body);
+    }
+    .form-submit:hover { background: var(--ink); transform: translateY(-1px); }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 40px 0;
+    }
+    .success-msg__icon { font-size: 48px; margin-bottom: 16px; }
+    .success-msg__title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .success-msg__sub { font-size: 14px; color: var(--stone); font-family: var(--font-serif); }
+
+    /* FAQ */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      padding: 24px 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink);
+      gap: 20px;
+    }
+    .faq-q:hover { color: var(--sage); }
+    .faq-toggle {
+      font-size: 20px;
+      color: var(--stone);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--sage); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 24px; }
+    .faq-a p {
+      font-size: 14px;
+      color: var(--stone);
+      line-height: 1.8;
+      font-family: var(--font-serif);
+    }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Li<span>MA</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="catalog.html">選品型錄</a></li>
+      <li><a href="about.html">品牌理念</a></li>
+      <li><a href="contact.html" class="nav__cta active">聯絡我們</a></li>
+    </ul>
+    <div class="nav__hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div class="contact-layout">
+
+      <!-- LEFT -->
+      <div class="contact-info fade-in">
+        <h1 class="contact-info__title">
+          讓我們<br><em>一起聊聊</em>
+        </h1>
+        <p class="contact-info__desc">
+          無論是關於選品的疑問、品牌合作邀請，或是你對永續生活的想法，我們都很樂意聆聽。
+        </p>
+
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="contact-method__icon">✉️</div>
+            <div>
+              <p class="contact-method__label">電子信箱</p>
+              <p class="contact-method__value">hello@lima-sustainability.com</p>
+              <p class="contact-method__sub">通常於 1–2 個工作天內回覆</p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-method__icon">💬</div>
+            <div>
+              <p class="contact-method__label">LINE 官方帳號</p>
+              <p class="contact-method__value">@lima.tw</p>
+              <p class="contact-method__sub">週一至週五 10:00–18:00</p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-method__icon">📍</div>
+            <div>
+              <p class="contact-method__label">辦公室</p>
+              <p class="contact-method__value">台灣台北市大安區<br>永續路 88 號 3 樓</p>
+              <p class="contact-method__sub">參觀請事先預約</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--stone);margin-bottom:16px;">Follow Us</p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Instagram">📷</a>
+          <a href="#" class="social-link" title="Facebook">📘</a>
+          <a href="#" class="social-link" title="LINE">💬</a>
+          <a href="#" class="social-link" title="YouTube">▶️</a>
+        </div>
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div class="contact-form-wrap fade-in">
+        <div id="formContent">
+          <h2 class="form-title">傳送訊息</h2>
+          <p class="form-subtitle">選擇你的詢問類型，填寫表單後我們將儘速與你聯繫。</p>
+
+          <p class="form-label" style="margin-bottom:12px;">詢問類型</p>
+          <div class="inquiry-type">
+            <button class="inquiry-chip active" onclick="selectChip(this)">選品諮詢</button>
+            <button class="inquiry-chip" onclick="selectChip(this)">品牌合作</button>
+            <button class="inquiry-chip" onclick="selectChip(this)">媒體採訪</button>
+            <button class="inquiry-chip" onclick="selectChip(this)">企業採購</button>
+            <button class="inquiry-chip" onclick="selectChip(this)">其他</button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">姓名 *</label>
+              <input class="form-input" type="text" placeholder="你的名字" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">電子信箱 *</label>
+              <input class="form-input" type="email" placeholder="your@email.com" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">電話</label>
+              <input class="form-input" type="tel" placeholder="0912-345-678" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">公司/品牌名稱</label>
+              <input class="form-input" type="text" placeholder="（選填）" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">如何找到我們？</label>
+            <select class="form-select">
+              <option value="">— 請選擇 —</option>
+              <option>Instagram / Facebook</option>
+              <option>朋友推薦</option>
+              <option>Google 搜尋</option>
+              <option>媒體報導</option>
+              <option>活動/市集</option>
+              <option>其他</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">訊息內容 *</label>
+            <textarea class="form-textarea" placeholder="請描述你的需求或問題，我們將在 1–2 個工作天內回覆..."></textarea>
+          </div>
+
+          <label class="form-check">
+            <input type="checkbox" />
+            <span>我同意 LiMA 以我提供的聯絡資訊回覆此次詢問，並了解相關隱私政策。</span>
+          </label>
+
+          <button class="form-submit" onclick="submitForm()">送出訊息</button>
+        </div>
+
+        <div class="success-msg" id="successMsg">
+          <div class="success-msg__icon">🌿</div>
+          <h3 class="success-msg__title">感謝你的訊息！</h3>
+          <p class="success-msg__sub">我們已收到你的詢問，將在 1–2 個工作天內透過 Email 與你聯繫。<br>在此之前，歡迎繼續瀏覽 LiMA 選品型錄。</p>
+          <div style="margin-top:32px;">
+            <a href="catalog.html" class="btn-primary">瀏覽選品型錄</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-eyebrow">常見問題</span>
+        <h2 class="section-title">你可能想 <em>了解的</em></h2>
+      </div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            LiMA 是電商平台還是型錄網站？
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-a">
+            <p>LiMA 目前定位為選品型錄，我們精心策展並展示符合永續標準的商品，並引導你至各品牌官方購買管道。未來我們也在規劃整合購物功能，敬請期待。</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            我的品牌可以申請加入 LiMA 型錄嗎？
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-a">
+            <p>當然可以！歡迎填寫聯絡表單選擇「品牌合作」，並簡述你的品牌故事與永續實踐。我們的選品團隊將會審核並在 5–7 個工作天內回覆。</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            你們的選品標準是什麼？
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-a">
+            <p>LiMA 有四項核心選品標準：天然材質、循環設計、公平貿易、在地優先。每一件進入型錄的商品都需通過這四項審核。詳情可參考<a href="about.html#選品標準" style="color:var(--sage);">品牌理念頁面</a>。</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            企業採購或團體訂單如何詢問？
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-a">
+            <p>我們歡迎企業永續禮品採購、活動選品等需求。請填寫聯絡表單選擇「企業採購」，並告知需求數量與預算，我們的專員將為你提供客製化方案。</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            如何訂閱 LiMA 電子報？
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-a">
+            <p>你可以在首頁底部找到電子報訂閱欄位，輸入信箱即可訂閱。每月我們將寄送最新永續選品資訊、品牌故事與生活靈感，不定期也有限定優惠。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Li<span>MA</span></div>
+        <p class="footer__brand-desc">匯聚對地球友善的精選永續商品，以美好設計實踐日常責任。</p>
+      </div>
+      <div>
+        <p class="footer__col-title">探索</p>
+        <ul class="footer__col-links">
+          <li><a href="catalog.html">選品型錄</a></li>
+          <li><a href="catalog.html">生活用品</a></li>
+          <li><a href="catalog.html">食品飲品</a></li>
+          <li><a href="catalog.html">個人護理</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">關於</p>
+        <ul class="footer__col-links">
+          <li><a href="about.html">品牌理念</a></li>
+          <li><a href="about.html">選品標準</a></li>
+          <li><a href="about.html">團隊介紹</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">聯絡</p>
+        <ul class="footer__col-links">
+          <li><a href="mailto:hello@lima.com">hello@lima.com</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">LINE 官方帳號</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 LiMA 永續選品型錄. All rights reserved.</p>
+      <div class="footer__bottom-links">
+        <a href="#">隱私政策</a>
+        <a href="#">服務條款</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+function selectChip(chip) {
+  document.querySelectorAll('.inquiry-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+}
+function submitForm() {
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
